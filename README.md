@@ -23,20 +23,21 @@ Clone this repository and then run:
 bundle
 ```
 
-### To set up the database:
-• Connect to `psql`  
-• Create the database using the psql command `CREATE DATABASE bookmark_manager;`  
-• Connect to the database using the pqsl command `\c bookmark_manager;`  
-• Run the query saved in the `db/migrations` folder: 01_create_bookmarks_table.sql  
-• Run the query saved in the `db/migrations` folder: 02_add_title_to_bookmarks.sql  
+### To set up the databases:
+Connect to `psql` and create the `bookmark_manager` database  
+```
+CREATE DATABASE bookmark_manager;
+\c bookmark_manager_test;
+```
+To set up the table run the SQL script found in `db/migrations` folder: 01_create_bookmarks_table.sql    
 
-
-To set up test database:
-• Connect to `psql`  
-• Create the database using the psql command `CREATE DATABASE bookmark_manager_test;`  
-• Connect to the database using the pqsl command `\c bookmark_manager_test;`  
-• Run the query saved in the `db/migrations` folder: 01_create_bookmarks_table.sql  
-• Run the query saved in the `db/migrations` folder: 02_add_title_to_bookmarks.sql  
+To set up the test database:  
+Connect to `psql` and create the `bookmark_manager_test` database  
+```
+CREATE DATABASE bookmark_manager;
+\c bookmark_manager_test;
+```
+To set up the table run the SQL script found in `db/migrations` folder: 02_add_title_to_bookmarks.sql  
 
 ### To run the Bookmark Manager app
 
