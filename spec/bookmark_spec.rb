@@ -42,4 +42,15 @@ describe Bookmark do
     end
   end
 
+  describe '#edit' do
+    it 'edits the given bookmark' do
+      bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'Test Bookmark')
+      updated_bookmark = Bookmark.edit(id: bookmark.id, url: 'http://www.bookmark.com', title: 'Bookmark')
+      expect(updated_bookmark).to be_a Bookmark
+      expect(updated_bookmark.id).to eq bookmark.id
+      expect(updated_bookmark.title).to eq 'Bookmark'
+      expect(updated_bookmark.url).to eq 'http://www.bookmark.com'
+    end
+  end
+
 end
