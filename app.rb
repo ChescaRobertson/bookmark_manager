@@ -1,6 +1,6 @@
 require 'sinatra/base'
 require 'sinatra/reloader'
-require 'bookmark'
+require './lib/bookmark'
 
 class BookmarkManager < Sinatra::Base
   configure :development do
@@ -8,7 +8,7 @@ class BookmarkManager < Sinatra::Base
   end
 
   get '/' do
-    'Hello World'
+    redirect '/bookmarks'
   end
 
   get '/bookmarks' do
@@ -23,6 +23,12 @@ class BookmarkManager < Sinatra::Base
 
   get '/bookmarks/new' do
     erb :"bookmarks/new"
+  end
+
+  enable :sessions, :method_override
+  delete '/bookmarks/:id' do
+    Bookmark.delete(id: params[:id])
+    redirect '/bookmarks'
   end
 
   run! if app_file == $0
