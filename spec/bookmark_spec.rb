@@ -70,6 +70,25 @@ describe Bookmark do
     end
   end
 
+  describe '.where' do
+    it 'returns bookmarks with the given tag id' do
+      bookmark = Bookmark.create(url: "http://www.makersacademy.com", title: "Makers Academy")
+      tag1 = Tag.create(content: 'test tag 1')
+      tag2 = Tag.create(content: 'test tag 2')
+      BookmarkTag.create(bookmark_id: bookmark.id, tag_id: tag1.id)
+      BookmarkTag.create(bookmark_id: bookmark.id, tag_id: tag2.id)
+
+      bookmarks = Bookmark.where(tag_id: tag1.id)
+      result = bookmarks.first
+
+      expect(bookmarks.length).to eq 1
+      expect(result).to be_a Bookmark
+      expect(result.id).to eq bookmark.id
+      expect(result.title).to eq bookmark.title
+      expect(result.url).to eq bookmark.url
+    end
+  end
+
   let(:comment_class) { double(:comment_class) }
   describe '#comments' do
     it 'calls .where on the Comment class' do
@@ -77,6 +96,16 @@ describe Bookmark do
       expect(comment_class).to receive(:where).with(bookmark_id: bookmark.id)
 
       bookmark.comments(comment_class)
+    end
+  end
+
+  let(:tag_class) { double(:tag_class) }
+  describe '#tags' do
+    it 'calls .where on the Tag class' do
+      bookmark = Bookmark.create(title: 'Makers Academy', url: 'http://www.makersacademy.com')
+      expect(tag_class).to receive(:where).with(bookmark_id: bookmark.id)
+
+      bookmark.tags(tag_class)
     end
   end
 

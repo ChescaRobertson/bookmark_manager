@@ -5,6 +5,8 @@ require './lib/comment'
 require_relative './database_connection_setup.rb'
 require 'uri'
 require 'sinatra/flash'
+require './lib/tag'
+require './lib/bookmark_tag'
 
 class BookmarkManager < Sinatra::Base
   enable :sessions, :method_override
@@ -46,6 +48,11 @@ class BookmarkManager < Sinatra::Base
     erb :'bookmarks/edit'
   end
 
+  patch '/bookmarks/:id' do
+    Bookmark.edit(id: params[:id], title: params[:title], url: params[:url])
+    redirect '/bookmarks'
+  end
+
   get '/bookmarks/:id/comments/new' do
     @bookmark_id = params[:id]
     erb :'bookmarks/comments/new'
@@ -56,9 +63,20 @@ class BookmarkManager < Sinatra::Base
     redirect '/bookmarks'
   end
 
-  patch '/bookmarks/:id' do
-    Bookmark.edit(id: params[:id], title: params[:title], url: params[:url])
-    redirect '/bookmarks'
+  post '/bookmarks/:id/tags' do
+      tag = Tag.create(content: params[:tag])
+      BookmarkTag.create(bookmark_id: params[:id], tag_id: tag.id)
+      redirect '/bookmarks'
+  end
+
+  get '/bookmarks/:id/tags/new' do
+    @bookmark_id = params[:id]
+    erb :'bookmarks/tags/new'
+  end
+ 
+  get '/tags/:id/bookmarks' do
+    @tag = Tag.find(id: params['id'])
+    erb :'bookmarks/tags/index'
   end
 
   run! if app_file == $0

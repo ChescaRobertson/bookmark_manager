@@ -1,0 +1,14 @@
+<% if bookmark.tags.length > 0 %>
+        <div>
+          <h2>Tags</h2>
+          <ul>
+            <% bookmark.tags.each do |tag| %>
+              <li>
+                <a href="/tags/<%= tag.id %>/bookmarks">
+                  <%= tag.content %>
+                </a>
+              </li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
