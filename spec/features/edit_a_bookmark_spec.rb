@@ -14,4 +14,5 @@ feature 'edits a bookmark' do
     expect(page).not_to have_link('google', href: 'http://www.google.com')
     expect(page).to have_link('bing', href: 'http://www.bing.com')
   end
+  
 end
