@@ -70,17 +70,13 @@ describe Bookmark do
     end
   end
 
+  let(:comment_class) { double(:comment_class) }
   describe '#comments' do
-    it 'lists comments on the bookmark' do
-      bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'Test Bookmark')
-      comment = Comment.create(text: 'test comment', bookmark_id: bookmark.id)
+    it 'calls .where on the Comment class' do
+      bookmark = Bookmark.create(title: 'Makers Academy', url: 'http://www.makersacademy.com')
+      expect(comment_class).to receive(:where).with(bookmark_id: bookmark.id)
 
-      persisted_data = persisted_data(table: 'comments', id: comment.id)
-
-      expect(comment).to be_a Comment
-      expect(comment.id).to eq persisted_data.first['id']
-      expect(comment.text).to eq 'test comment'
-      expect(comment.bookmark_id).to eq bookmark.id
+      bookmark.comments(comment_class)
     end
   end
 

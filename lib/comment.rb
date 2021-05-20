@@ -14,9 +14,9 @@ class Comment
     result = DatabaseConnection.query("SELECT * FROM comments WHERE bookmark_id = #{bookmark_id};")
     result.map do |comment|
       Comment.new(
-        id: comment[0]['id'],
-        text: comment[0]['text'],
-        bookmark_id: comment[0]['bookmark_id']
+        id: comment['id'],
+        text: comment['text'],
+        bookmark_id: comment['bookmark_id']
       )
     end
   end
