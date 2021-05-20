@@ -1,4 +1,5 @@
 require 'Bookmark'
+require 'comment'
 require 'database_helpers'
 
 describe Bookmark do
@@ -25,14 +26,14 @@ describe Bookmark do
   describe '#create' do
     it 'creates a new bookmark' do
       bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'Test Bookmark')
-      persisted_data = persisted_data(id: bookmark.id)
+      persisted_data = persisted_data(table: 'bookmarks', id: bookmark.id)
 
       expect(bookmark).to be_a Bookmark
       expect(bookmark.id).to eq persisted_data.first['id']
       expect(bookmark.title).to eq 'Test Bookmark'
       expect(bookmark.url).to eq 'http://www.testbookmark.com'
     end
-    
+
     it 'does not create a new bookmark if the URL is not valid' do
       bookmark = Bookmark.create(url: 'not a real bookmark', title: 'not a real bookmark')
       expect(bookmark).not_to be_a Bookmark
@@ -66,6 +67,20 @@ describe Bookmark do
       expect(result.id).to eq bookmark.id
       expect(result.title).to eq 'Test Bookmark'
       expect(result.url).to eq 'http://www.testbookmark.com'
+    end
+  end
+
+  describe '#comments' do
+    it 'lists comments on the bookmark' do
+      bookmark = Bookmark.create(url: 'http://www.testbookmark.com', title: 'Test Bookmark')
+      comment = Comment.create(text: 'test comment', bookmark_id: bookmark.id)
+
+      persisted_data = persisted_data(table: 'comments', id: comment.id)
+
+      expect(comment).to be_a Comment
+      expect(comment.id).to eq persisted_data.first['id']
+      expect(comment.text).to eq 'test comment'
+      expect(comment.bookmark_id).to eq bookmark.id
     end
   end
 

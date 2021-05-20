@@ -10,13 +10,21 @@
     </form>
     <form action="/bookmarks/<%= bookmark.id %>/edit">
       <input type='submit' value='Edit' />
-    </form>  
+    </form>
+    <form action="/bookmarks/<%= bookmark.id %>/comments/new">
+      <input type='submit' value='Add Comment' />
+    </form>
+    <ul>
+      <% bookmark.comments.each do |comment| %>
+        <li> <%= comment.text %></li>
+      <% end %>
+    </ul>
     </li>
   <% end %>
   <form action="/bookmarks/new">
   <input type='submit' value='Add'/>
   </form>
   <p>
-  <%= flash[:notice] %> 
+  <%= flash[:notice] %>
   </p>
   </ul>
