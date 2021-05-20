@@ -10,6 +10,6 @@ feature 'adding and viewing comments' do
     click_button 'Submit'
 
     expect(current_path).to eq '/bookmarks'
-    expect(current_path).to have_content 'comment test'
+    expect(page).to have_content 'comment test'
   end
 end
